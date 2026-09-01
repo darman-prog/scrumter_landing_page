@@ -95,7 +95,7 @@ export const content = {
     trust: {
       eyebrow: "CON LA CONFIANZA DE EQUIPOS AGILES",
       logos: ["Lumina", "Northwind", "Brightpath", "Aster Labs", "Nexa"],
-      badges: ["4.8/5 en G2", "2.500+ equipos", "99.9% uptime"],
+      badges: ["4.8/5 en G2","99.9% uptime"],
     },
     how: {
       eyebrow: "COMO FUNCIONA",
