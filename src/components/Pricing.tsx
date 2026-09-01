@@ -58,8 +58,8 @@ export function Pricing({
               <article
                 className={`relative flex h-full min-h-[420px] flex-col rounded-3xl border p-6 transition hover:-translate-y-1 ${
                   plan.highlighted
-                    ? "border-brand bg-slate-950 text-white shadow-2xl shadow-brand/20 dark:border-brand-300 dark:bg-white dark:text-slate-950"
-                    : "border-slate-200 bg-white shadow-sm dark:border-white/10 dark:bg-slate-950"
+                    ? "border-brand bg-slate-950 text-white shadow-2xl shadow-brand/20 hover:border-brand-400 hover:bg-slate-900 hover:shadow-brand/40 dark:border-brand-300 dark:bg-white dark:text-slate-950 dark:hover:border-brand-400 dark:hover:bg-slate-50 dark:hover:shadow-brand/30"
+                    : "border-slate-200 bg-white shadow-sm hover:border-brand hover:shadow-lg dark:border-white/10 dark:bg-slate-950"
                 }`}
               >
                 {plan.highlighted && (
@@ -71,10 +71,10 @@ export function Pricing({
                 <p className={`mt-3 min-h-12 text-sm leading-6 ${plan.highlighted ? "text-slate-300 dark:text-slate-600" : "text-slate-500 dark:text-slate-400"}`}>
                   {plan.description}
                 </p>
-                <div className="mt-6 flex items-baseline gap-2">
-                  <b className="text-4xl font-black">{plan.price[currency]}</b>
+                <div className="mt-6 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                  <b className="text-4xl font-black whitespace-nowrap xl:text-3xl">{plan.price[currency]}</b>
                   {!["A medida", "Custom"].includes(plan.price[currency]) && (
-                    <span className={`text-sm font-bold ${plan.highlighted ? "text-slate-300 dark:text-slate-500" : "text-slate-500 dark:text-slate-400"}`}>
+                    <span className={`text-sm font-bold whitespace-nowrap ${plan.highlighted ? "text-slate-300 dark:text-slate-500" : "text-slate-500 dark:text-slate-400"}`}>
                       {copy.monthly}
                     </span>
                   )}
