@@ -32,28 +32,30 @@ export function CTA({ locale }: { locale: Locale }) {
   }
 
   return (
-    <section id="cta" className="px-5 pb-20 pt-4 sm:px-6 lg:px-8">
+    // 1. pt-4 cambiado a pt-12 md:pt-16 para dar aire superior
+    <section id="cta" className="px-5 pb-20 pt-12 md:pt-16 sm:px-6 lg:px-8">
       <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand via-[#4f46e5] to-[#7c3aed] px-6 py-14 text-center text-white shadow-2xl shadow-brand/30 sm:px-10 md:py-20 dark:from-[#1e1b4b] dark:via-[#4c1d95] dark:to-[#6d28d9] dark:shadow-black/40">
-        {/* spotlight + ruido — IA cara */}
-        <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(600px_circle_at_50%_110%,rgba(255,255,255,0.14),transparent_65%)]"
-          aria-hidden="true"
-        />
+        {/* spotlight + ruido */}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(600px_circle_at_50%_110%,rgba(255,255,255,0.14),transparent_65%)]" aria-hidden="true" />
         <div className="hero-noise pointer-events-none absolute inset-0 !opacity-[0.05]" aria-hidden="true" />
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 text-white">
-          <Mail size={25} aria-hidden="true" />
+        
+        {/* 2. Icono más grande (h-16) y con efecto glassmorphism sutil */}
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-white/20 text-white shadow-lg shadow-black/10 backdrop-blur-sm ring-1 ring-white/30">
+          <Mail size={28} aria-hidden="true" />
         </div>
+        
         <h2 className="mx-auto mt-6 max-w-3xl text-balance text-3xl font-black md:text-5xl">{copy.title}</h2>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-indigo-100">{copy.subtitle}</p>
 
-        <form className="mx-auto mt-8 flex max-w-2xl flex-col gap-3 rounded-3xl bg-white p-2 sm:flex-row" noValidate onSubmit={onSubmit} aria-busy={loading}>
-          <label htmlFor={inputId} className="sr-only">
-            {copy.placeholder}
-          </label>
+        {/* 3. Form con más padding (p-3 sm:p-4) y sombra interna */}
+        <form className="mx-auto mt-8 flex max-w-2xl flex-col gap-3 rounded-3xl bg-white p-3 shadow-xl shadow-black/10 sm:flex-row sm:p-4" noValidate onSubmit={onSubmit} aria-busy={loading}>
+          <label htmlFor={inputId} className="sr-only">{copy.placeholder}</label>
+          
+          {/* 4. Input con borde sutil y transiciones suaves */}
           <input
             id={inputId}
-            className={`min-h-14 flex-1 rounded-2xl px-5 text-base font-semibold text-slate-950 outline-none placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
-              messageType === "error" ? "ring-2 ring-rose-400" : ""
+            className={`min-h-14 flex-1 rounded-2xl border border-slate-200 px-5 text-base font-semibold text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-brand focus-visible:ring-2 focus-visible:ring-brand/20 ${
+              messageType === "error" ? "border-rose-400 focus:border-rose-500 ring-2 ring-rose-100" : ""
             }`}
             type="email"
             value={email}
@@ -66,8 +68,10 @@ export function CTA({ locale }: { locale: Locale }) {
             aria-describedby={`${helpId} ${msgId}`}
             disabled={loading}
           />
+          
+          {/* 5. Botón con color de marca (Destaca sobre el fondo blanco) */}
           <button
-            className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-white px-6 text-sm font-black text-brand shadow-lg transition hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-brand px-6 text-sm font-black text-white shadow-lg shadow-brand/30 transition-all hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
             type="submit"
             disabled={loading}
             aria-busy={loading}
@@ -77,13 +81,13 @@ export function CTA({ locale }: { locale: Locale }) {
           </button>
         </form>
 
-        <p id={helpId} className="sr-only">
-          {copy.note}
-        </p>
+        <p id={helpId} className="sr-only">{copy.note}</p>
+        
+        {/* 6. Colores de mensaje con mayor contraste (300 en lugar de 200) */}
         <p
           id={msgId}
-          className={`mt-4 min-h-6 text-sm font-bold ${
-            messageType === "error" ? "text-rose-200" : messageType === "success" ? "text-emerald-200" : "text-indigo-100"
+          className={`mt-4 min-h-6 text-sm font-bold transition-colors ${
+            messageType === "error" ? "text-rose-300" : messageType === "success" ? "text-emerald-300" : "text-indigo-100/80"
           }`}
           role={messageType === "error" ? "alert" : "status"}
           aria-live={messageType === "error" ? "assertive" : "polite"}
