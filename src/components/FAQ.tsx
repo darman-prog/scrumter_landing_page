@@ -1,4 +1,5 @@
 import { ChevronDown } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
 import { content, type Locale } from "../data/content";
 import { SectionHeading } from "./SectionHeading";
@@ -6,6 +7,7 @@ import { SectionHeading } from "./SectionHeading";
 export function FAQ({ locale }: { locale: Locale }) {
   const copy = content[locale].faq;
   const [open, setOpen] = useState(0);
+  const prefersReduced = useReducedMotion();
 
   return (
     <section id="faq" className="py-24 md:py-28">
@@ -25,19 +27,29 @@ export function FAQ({ locale }: { locale: Locale }) {
                     onClick={() => setOpen(isOpen ? -1 : index)}
                   >
                     <span>{item.question}</span>
-                    <ChevronDown aria-hidden="true" className={`shrink-0 text-brand transition ${isOpen ? "rotate-180" : ""}`} size={20} />
+                    <ChevronDown
+                      aria-hidden="true"
+                      className={`shrink-0 text-brand transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                      size={20}
+                    />
                   </button>
                 </h3>
-                <div
+                <motion.div
                   id={`faq-${index}`}
-                  hidden={!isOpen}
+                  initial={false}
+                  animate={{
+                    height: isOpen ? "auto" : 0,
+                    opacity: isOpen ? 1 : 0,
+                  }}
+                  transition={{
+                    duration: prefersReduced ? 0 : 0.35,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="overflow-hidden"
                   aria-hidden={!isOpen}
-                  className={`grid transition-all duration-300 ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
                 >
-                  <div className="overflow-hidden">
-                    <p className="px-5 pb-5 text-sm leading-7 text-slate-600 dark:text-slate-300 sm:px-6">{item.answer}</p>
-                  </div>
-                </div>
+                  <p className="px-5 pb-5 text-sm leading-7 text-slate-600 dark:text-slate-300 sm:px-6">{item.answer}</p>
+                </motion.div>
               </div>
             );
           })}
