@@ -1,4 +1,5 @@
-import { ArrowRight, Check, ShieldCheck } from "lucide-react";
+import { ArrowRight, Check, ChevronRight, ShieldCheck } from "lucide-react";
+import { useState } from "react";
 import { SIGNUP_URL, content, type Currency, type Locale } from "../data/content";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
@@ -13,6 +14,8 @@ export function Pricing({
   setCurrency: (currency: Currency) => void;
 }) {
   const copy = content[locale].pricing;
+  // hint de scroll horizontal: desaparece tras el primer gesto del usuario
+  const [scrolled, setScrolled] = useState(false);
 
   return (
     <section id="pricing" className="bg-slate-50 py-24 md:py-28 dark:bg-white/[0.03]">
@@ -57,10 +60,16 @@ export function Pricing({
           </div>
         </div>
 
-        {/* Grid de planes */}
-        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-6 -mx-5 px-5 sm:mx-0 sm:px-0 lg:grid lg:grid-cols-3 lg:gap-6 xl:grid-cols-5 xl:gap-5 lg:overflow-visible lg:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {/* Grid de planes — carrusel con hint sutil en móvil */}
+        <div className="relative -mx-5 sm:mx-0">
+          <div
+            onScroll={() => {
+              if (!scrolled) setScrolled(true);
+            }}
+            className="pricing-fade flex gap-4 overflow-x-auto snap-x snap-mandatory px-5 pb-6 sm:px-0 lg:grid lg:grid-cols-3 lg:gap-6 xl:grid-cols-5 xl:gap-5 lg:overflow-visible lg:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
           {copy.plans.map((plan, index) => (
-            <Reveal key={plan.name} delay={index * 60} className="min-w-[85vw] snap-center sm:min-w-[340px] lg:min-w-0 shrink-0 lg:shrink">
+            <Reveal key={plan.name} delay={index * 60} className="min-w-[82vw] snap-center sm:min-w-[340px] lg:min-w-0 shrink-0 lg:shrink">
               <article
                 className={`group relative flex h-full min-h-[420px] flex-col rounded-3xl border p-6 transition-all duration-300 hover:-translate-y-1 ${
                   plan.highlighted
@@ -133,6 +142,17 @@ export function Pricing({
               </article>
             </Reveal>
           ))}
+          </div>
+
+          {/* hint minimal: chevron con nudge sutil, se oculta tras el primer scroll */}
+          <span
+            aria-hidden="true"
+            className={`pricing-hint absolute right-3 top-1/2 z-10 flex -translate-y-1/2 items-center transition-opacity duration-300 lg:hidden ${
+              scrolled ? "pointer-events-none opacity-0" : "opacity-100"
+            }`}
+          >
+            <ChevronRight size={22} strokeWidth={2.25} className="pricing-hint-arrow text-brand dark:text-brand-200" />
+          </span>
         </div>
 
         {/* Garantía convertida en badge/pill */}
