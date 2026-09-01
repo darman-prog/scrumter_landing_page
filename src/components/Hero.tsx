@@ -1,29 +1,46 @@
 import { ArrowRight, Check, ChevronRight, Play } from "lucide-react";
+import { motion, useMotionTemplate, useMotionValue, useReducedMotion } from "motion/react";
+import { useRef, type MouseEvent } from "react";
 import { CountUp } from "./CountUp";
 import { ProductMockup } from "./ProductMockup";
 import { SIGNUP_URL, content, type Locale } from "../data/content";
 
 export function Hero({ locale }: { locale: Locale }) {
   const copy = content[locale].hero;
+  const prefersReduced = useReducedMotion();
+  const heroRef = useRef<HTMLElement>(null);
+  const x = useMotionValue(-800);
+  const y = useMotionValue(-800);
+  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${x}px ${y}px, rgba(54,38,206,0.10), transparent 65%)`;
+
+  function onMouseMove(event: MouseEvent<HTMLElement>) {
+    const rect = heroRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    x.set(event.clientX - rect.left);
+    y.set(event.clientY - rect.top);
+  }
 
   return (
-    <section id="main" className="hero-section relative overflow-x-clip pb-16 pt-10 md:pb-24 md:pt-16">
-      {/* grid + gradients — referencia Nexora */}
+    <section id="main" ref={heroRef} onMouseMove={onMouseMove} className="hero-section relative overflow-x-clip pb-16 pt-10 md:pb-24 md:pt-16">
+      {/* dot grid + washes sutiles + ruido — IA cara */}
       <div className="hero-grid absolute inset-0 -z-20" aria-hidden="true" />
       <div
-        className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_12%,rgba(54,38,206,0.13),transparent_26%),radial-gradient(circle_at_84%_18%,rgba(20,184,166,0.10),transparent_26%),linear-gradient(180deg,#fff,rgba(248,250,252,0.65))] dark:bg-[radial-gradient(circle_at_18%_12%,rgba(99,102,241,0.20),transparent_26%),radial-gradient(circle_at_84%_18%,rgba(20,184,166,0.10),transparent_26%),linear-gradient(180deg,#020617,#0f172a)]"
+        className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_82%_12%,rgba(124,58,237,0.05),transparent_28%),radial-gradient(circle_at_16%_8%,rgba(54,38,206,0.05),transparent_26%),linear-gradient(180deg,#fff,rgba(248,250,252,0.65))] dark:bg-[radial-gradient(circle_at_82%_12%,rgba(124,58,237,0.10),transparent_28%),radial-gradient(circle_at_16%_8%,rgba(99,102,241,0.10),transparent_26%),linear-gradient(180deg,#020617,#0f172a)]"
         aria-hidden="true"
       />
-      {/* orbs & gem — sutiles, como referencia */}
-      <div className="hero-orb hero-orb-1" aria-hidden="true" />
-      <div className="hero-orb hero-orb-2" aria-hidden="true" />
-      <div className="hero-gem" aria-hidden="true" />
+      <div className="hero-noise absolute inset-0 -z-10" aria-hidden="true" />
+      {/* spotlight que sigue el cursor (desktop, sin reduced-motion) */}
+      {!prefersReduced && (
+        <motion.div className="pointer-events-none absolute inset-0 -z-10 hidden md:block" style={{ background: spotlight }} aria-hidden="true" />
+      )}
+      {/* una sola aurora difusa */}
+      <div className="hero-aurora" aria-hidden="true" />
 
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 sm:px-6 lg:grid-cols-[1.02fr_1.08fr] lg:gap-8 lg:px-8">
         <div className="min-w-0">
           {/* pill NEW — fiel a referencia con tag */}
           <a href={SIGNUP_URL} className="pill group inline-flex items-center gap-2 !py-1.5 !pr-2 !pl-2.5 text-[0.78rem] !font-semibold hover:border-brand/30">
-            <span className="rounded-md bg-brand px-1.5 py-0.5 text-[0.62rem] font-black tracking-[0.06em] text-white">{locale === "es" ? "NUEVO" : "NEW"}</span>
+            <span className="rounded-md bg-brand px-1.5 py-0.5 font-mono text-[0.62rem] font-medium tracking-[0.08em] text-white">{locale === "es" ? "NUEVO" : "NEW"}</span>
             <span className="font-semibold tracking-tight">{copy.badge}</span>
             <ChevronRight size={14} className="opacity-60 transition group-hover:translate-x-0.5 group-hover:opacity-100" aria-hidden="true" />
           </a>
@@ -69,7 +86,7 @@ export function Hero({ locale }: { locale: Locale }) {
               const suffix = metric.value.replace(/[\d.,]/g, "");
               return (
                 <div key={metric.label} className="border-l-[3px] border-brand/20 pl-3 sm:pl-4">
-                  <b className="block text-[1.22rem] font-extrabold tracking-[-0.02em] text-slate-950 sm:text-2xl dark:text-white">
+                  <b className="block text-[1.22rem] font-extrabold tracking-[-0.02em] text-slate-950 tabular-nums sm:text-2xl dark:text-white">
                     <CountUp from={0} to={num} decimals={decimals} suffix={suffix} ariaLabel={`${metric.value} ${metric.label}`} />
                   </b>
                   <span className="mt-1 block text-[11px] font-semibold leading-4 text-slate-500 dark:text-slate-400">{metric.label}</span>
@@ -80,9 +97,11 @@ export function Hero({ locale }: { locale: Locale }) {
         </div>
 
         <div className="relative mx-auto w-full max-w-[600px] lg:ml-auto lg:max-w-[640px]">
-          {/* perspectiva mockup referencia */}
+          {/* borde gradient animado + perspectiva mockup */}
           <div className="hero-mockup-wrap">
-            <ProductMockup locale={locale} />
+            <div className="gradient-beam rounded-[18px]">
+              <ProductMockup locale={locale} />
+            </div>
           </div>
         </div>
       </div>

@@ -1,4 +1,7 @@
+import { ShieldCheck, Star, Users } from "lucide-react";
 import { content, type Locale } from "../data/content";
+
+const badgeIcons = [Star, Users, ShieldCheck];
 
 export function TrustLogos({ locale }: { locale: Locale }) {
   const copy = content[locale].trust;
@@ -7,6 +10,17 @@ export function TrustLogos({ locale }: { locale: Locale }) {
   return (
     <section className="border-y border-slate-200 bg-slate-50 py-10 dark:border-white/10 dark:bg-white/[0.03]" aria-label={copy.eyebrow}>
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+        <ul className="mb-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+          {copy.badges.map((badge, index) => {
+            const Icon = badgeIcons[index % badgeIcons.length];
+            return (
+              <li key={badge} className="flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+                <Icon size={13} className={index === 0 ? "text-amber-500" : "text-brand dark:text-brand-400"} aria-hidden="true" />
+                {badge}
+              </li>
+            );
+          })}
+        </ul>
         <p className="text-center text-[11px] font-black uppercase tracking-widest text-slate-400 sm:text-xs sm:tracking-[0.18em] dark:text-slate-500">
           {copy.eyebrow}
         </p>

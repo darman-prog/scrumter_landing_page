@@ -33,7 +33,13 @@ export function CTA({ locale }: { locale: Locale }) {
 
   return (
     <section id="cta" className="px-5 pb-20 pt-4 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand via-[#4f46e5] to-[#7c3aed] px-6 py-14 text-center text-white shadow-2xl shadow-brand/30 sm:px-10 md:py-20 dark:from-[#1e1b4b] dark:via-[#4c1d95] dark:to-[#6d28d9] dark:shadow-black/40">
+      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand via-[#4f46e5] to-[#7c3aed] px-6 py-14 text-center text-white shadow-2xl shadow-brand/30 sm:px-10 md:py-20 dark:from-[#1e1b4b] dark:via-[#4c1d95] dark:to-[#6d28d9] dark:shadow-black/40">
+        {/* spotlight + ruido — IA cara */}
+        <div
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(600px_circle_at_50%_110%,rgba(255,255,255,0.14),transparent_65%)]"
+          aria-hidden="true"
+        />
+        <div className="hero-noise pointer-events-none absolute inset-0 !opacity-[0.05]" aria-hidden="true" />
         <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 text-white">
           <Mail size={25} aria-hidden="true" />
         </div>

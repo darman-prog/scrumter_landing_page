@@ -1,10 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap");
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
 
   /* brand scale */
   --color-brand-50: #eef0ff;
@@ -407,68 +408,84 @@ body {
   background: #818cf8;
 }
 
-/* hero referencia — grid sutil + orbs + gem */
+/* hero IA cara — dot grid + aurora + noise */
 .hero-grid {
-  background-image:
-    linear-gradient(rgba(15, 23, 42, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
-  background-size: 32px 32px;
-  background-position: -1px -1px;
+  background-image: radial-gradient(rgba(15, 23, 42, 0.14) 1px, transparent 1px);
+  background-size: 24px 24px;
   mask-image: radial-gradient(ellipse 85% 70% at 50% 28%, black 58%, transparent 82%);
-  opacity: 0.65;
-}
-.dark .hero-grid {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
   opacity: 0.35;
 }
+.dark .hero-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px);
+  opacity: 0.28;
+}
 
-.hero-orb {
+/* ruido sutil sobre el hero (SVG data-uri, 0 requests) */
+.hero-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  mix-blend-mode: soft-light;
+}
+.dark .hero-noise {
+  opacity: 0.04;
+}
+
+/* una sola aurora difusa — señal de infra cara */
+.hero-aurora {
   position: absolute;
+  top: -18%;
+  right: -12%;
+  width: 560px;
+  height: 560px;
   border-radius: 999px;
-  background: radial-gradient(circle at 32% 30%, #c3c0ff 0%, #3626ce 54%, #1e1b4b 100%);
-  box-shadow: 0 20px 50px rgba(54, 38, 206, 0.35);
+  background: radial-gradient(circle at 40% 35%, rgba(129, 140, 248, 0.4), rgba(54, 38, 206, 0.18) 55%, transparent 72%);
+  filter: blur(64px);
   z-index: -1;
   pointer-events: none;
+  animation: aurora-drift 14s ease-in-out infinite alternate;
 }
-.hero-orb-1 {
-  width: 420px;
-  height: 420px;
-  top: -8%;
-  right: -6%;
-  opacity: 0.92;
-  filter: blur(0px);
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(-24px, 18px, 0) scale(1.06);
+  }
 }
-.hero-orb-2 {
-  width: 180px;
-  height: 180px;
-  top: 58%;
-  right: 6%;
-  opacity: 0.65;
+
+/* borde gradient animado (conic beam) para mockups y cards destacadas */
+.gradient-beam {
+  position: relative;
+  isolation: isolate;
 }
-.hero-gem {
-  position: absolute;
-  left: 50%;
-  bottom: 6%;
-  width: 44px;
-  height: 44px;
-  transform: translateX(-42%) rotate(45deg);
-  background: linear-gradient(135deg, #93c5fd 0%, #3626ce 55%, #1e1b4b 100%);
-  box-shadow:
-    0 12px 28px rgba(54, 38, 206, 0.35),
-    inset 0 1px 2px rgba(255, 255, 255, 0.6);
-  border-radius: 8px;
-  z-index: -1;
-  pointer-events: none;
-}
-.hero-gem::after {
+.gradient-beam::before {
   content: "";
   position: absolute;
-  inset: 5px;
-  border-radius: 6px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
-  opacity: 0.55;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--beam-angle, 0deg), transparent 0%, rgba(129, 140, 248, 0.9) 12%, transparent 26%, transparent 55%, rgba(124, 58, 237, 0.7) 68%, transparent 82%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: beam-spin 4s linear infinite;
+  pointer-events: none;
+}
+@property --beam-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes beam-spin {
+  to {
+    --beam-angle: 360deg;
+  }
 }
 
 .hero-mockup-wrap {
@@ -486,17 +503,11 @@ body {
 }
 
 @media (max-width: 1024px) {
-  .hero-orb-1 {
-    width: 260px;
-    height: 260px;
-    top: -2%;
-    right: -10%;
-  }
-  .hero-orb-2 {
-    width: 96px;
-    height: 96px;
-    top: auto;
-    bottom: 6%;
+  .hero-aurora {
+    width: 360px;
+    height: 360px;
+    top: -10%;
+    right: -14%;
   }
   .hero-mockup-wrap > div {
     transform: none;
@@ -504,13 +515,17 @@ body {
   }
 }
 @media (max-width: 640px) {
-  .hero-orb-1,
-  .hero-orb-2,
-  .hero-gem {
+  .hero-aurora {
     display: none;
   }
   .hero-grid {
     mask-image: radial-gradient(ellipse 110% 60% at 50% 20%, black 55%, transparent 78%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-aurora,
+  .gradient-beam::before {
+    animation: none;
   }
 }
 

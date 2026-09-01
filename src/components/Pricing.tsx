@@ -72,7 +72,7 @@ export function Pricing({
                   {plan.description}
                 </p>
                 <div className="mt-6 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                  <b className="text-4xl font-black whitespace-nowrap xl:text-3xl">{plan.price[currency]}</b>
+                  <b className="text-4xl font-black whitespace-nowrap tabular-nums xl:text-3xl">{plan.price[currency]}</b>
                   {!["A medida", "Custom"].includes(plan.price[currency]) && (
                     <span className={`text-sm font-bold whitespace-nowrap ${plan.highlighted ? "text-slate-300 dark:text-slate-500" : "text-slate-500 dark:text-slate-400"}`}>
                       {copy.monthly}
