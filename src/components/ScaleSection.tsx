@@ -33,10 +33,25 @@ export function ScaleSection({ locale }: { locale: Locale }) {
 
         <Reveal delay={100}>
           <div className="grid gap-4 sm:grid-cols-2">
-            <MetricTile icon={<UsersRound />} label="Users" value="15+" tone="brand" />
-            <MetricTile icon={<Zap />} label="AI credits" value="5k" tone="amber" />
-            <MetricTile icon={<Gauge />} label="Sprint velocity" value="+31%" tone="emerald" />
-            <MetricTile icon={<ShieldCheck />} label="Audit trail" value="100%" tone="slate" />
+            <MetricTile
+              icon={<UsersRound aria-hidden="true" />}
+              label={locale === "es" ? "Usuarios" : "Users"}
+              value="15+"
+              tone="brand"
+            />
+            <MetricTile icon={<Zap aria-hidden="true" />} label={locale === "es" ? "Créditos IA" : "AI credits"} value="5k" tone="amber" />
+            <MetricTile
+              icon={<Gauge aria-hidden="true" />}
+              label={locale === "es" ? "Velocidad sprint" : "Sprint velocity"}
+              value="+31%"
+              tone="emerald"
+            />
+            <MetricTile
+              icon={<ShieldCheck aria-hidden="true" />}
+              label={locale === "es" ? "Auditoría" : "Audit trail"}
+              value="100%"
+              tone="slate"
+            />
           </div>
         </Reveal>
       </div>

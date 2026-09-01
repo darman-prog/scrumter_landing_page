@@ -8,8 +8,8 @@ export function Footer({ locale }: { locale: Locale }) {
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1.2fr_2fr]">
           <div>
-            <a href="#main" className="flex items-center gap-3 font-black text-slate-950 dark:text-white">
-              <img className="h-10 w-10 rounded-xl object-contain" src="/scrumter-logo.png" alt="" />
+            <a href="#main" className="flex items-center gap-3 font-black text-slate-950 dark:text-white" aria-label="Scrumter — Inicio">
+              <img className="h-10 w-10 rounded-xl object-contain" src="/scrumter-logo.png" alt="Scrumter" width={40} height={40} loading="lazy" decoding="async" />
               <span className="text-xl">Scrumter</span>
             </a>
             <p className="mt-4 max-w-sm text-sm leading-7 text-slate-600 dark:text-slate-300">{copy.description}</p>
@@ -17,16 +17,19 @@ export function Footer({ locale }: { locale: Locale }) {
 
           <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
             {copy.columns.map((column) => (
-              <div key={column.title}>
+              <nav key={column.title} aria-label={column.title}>
                 <b className="text-sm text-slate-950 dark:text-white">{column.title}</b>
-                <div className="mt-4 grid gap-3">
+                <ul className="mt-4 grid gap-3">
                   {column.links.map((link) => (
-                    <a key={link} className="text-sm font-semibold text-slate-500 transition hover:text-brand dark:text-slate-400 dark:hover:text-white" href="#main">
-                      {link}
-                    </a>
+                    <li key={link}>
+                      {/* TODO fullstack: reemplazar por rutas reales cuando existan */}
+                      <span className="text-sm font-semibold text-slate-400 dark:text-slate-500" aria-disabled="true">
+                        {link}
+                      </span>
+                    </li>
                   ))}
-                </div>
-              </div>
+                </ul>
+              </nav>
             ))}
           </div>
         </div>

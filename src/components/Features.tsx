@@ -16,14 +16,18 @@ export function Features({ locale }: { locale: Locale }) {
             return (
               <Reveal key={item.title} delay={index * 60}>
                 <article className="feature-card group h-full">
-                  <div className="flex h-13 w-13 items-center justify-center rounded-2xl bg-white text-brand shadow-sm ring-1 ring-slate-200 transition group-hover:bg-brand group-hover:text-white dark:bg-slate-950 dark:ring-white/10">
-                    <Icon size={24} />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-brand shadow-sm ring-1 ring-slate-200 transition group-hover:bg-brand group-hover:text-white dark:bg-slate-950 dark:ring-white/10">
+                    <Icon size={22} aria-hidden="true" />
                   </div>
                   <h3 className="mt-6 text-xl font-black text-slate-950 dark:text-white">{item.title}</h3>
                   <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">{item.text}</p>
-                  <a className="mt-5 inline-flex items-center gap-2 text-sm font-black text-brand dark:text-indigo-200" href="#cta">
-                    {locale === "es" ? "Saber mas" : "Learn more"}
-                    <ArrowUpRight size={16} />
+                  <a
+                    className="mt-5 inline-flex items-center gap-2 text-sm font-black text-brand transition hover:gap-3 dark:text-indigo-200"
+                    href="#cta"
+                    aria-label={`${locale === "es" ? "Saber más sobre" : "Learn more about"} ${item.title}`}
+                  >
+                    {locale === "es" ? "Saber más" : "Learn more"}
+                    <ArrowUpRight size={16} aria-hidden="true" />
                   </a>
                 </article>
               </Reveal>

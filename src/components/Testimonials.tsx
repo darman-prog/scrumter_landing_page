@@ -21,21 +21,23 @@ export function Testimonials({ locale }: { locale: Locale }) {
           {copy.items.map((item, index) => (
             <Reveal key={item.name} delay={index * 80}>
               <article className="h-full rounded-3xl border border-white/10 bg-white/[0.06] p-6 shadow-2xl shadow-black/10">
-                <div className="flex gap-1 text-amber-300" aria-label="5 stars">
+                <div className="flex gap-1 text-amber-300" aria-label={locale === "es" ? "5 estrellas" : "5 stars"} aria-hidden="true">
                   {Array.from({ length: 5 }).map((_, starIndex) => (
-                    <Star key={starIndex} size={17} fill="currentColor" />
+                    <Star key={starIndex} size={17} fill="currentColor" aria-hidden="true" />
                   ))}
                 </div>
-                <p className="mt-6 text-base font-semibold leading-8 text-slate-100">"{item.quote}"</p>
-                <div className="mt-8 flex items-center gap-3">
-                  <span className="grid h-11 w-11 place-items-center rounded-full bg-white text-sm font-black text-brand">
-                    {item.initials}
-                  </span>
-                  <div>
-                    <b className="block text-sm">{item.name}</b>
-                    <span className="text-xs font-semibold text-slate-400">{item.role}</span>
-                  </div>
-                </div>
+                <blockquote className="mt-6">
+                  <p className="text-base font-semibold leading-8 text-slate-100">“{item.quote}”</p>
+                  <footer className="mt-8 flex items-center gap-3">
+                    <span className="grid h-11 w-11 place-items-center rounded-full bg-white text-sm font-black text-brand" aria-hidden="true">
+                      {item.initials}
+                    </span>
+                    <cite className="not-italic">
+                      <b className="block text-sm not-italic">{item.name}</b>
+                      <span className="text-xs font-semibold text-slate-400">{item.role}</span>
+                    </cite>
+                  </footer>
+                </blockquote>
               </article>
             </Reveal>
           ))}

@@ -45,7 +45,20 @@ export default function App() {
 
   useEffect(() => {
     document.body.classList.toggle("overflow-hidden", menuOpen);
-    return () => document.body.classList.remove("overflow-hidden");
+    const main = document.getElementById("main-content") as HTMLElement & { inert?: boolean };
+    if (main) {
+      if (menuOpen) main.setAttribute("inert", "");
+      else main.removeAttribute("inert");
+      if ("inert" in main) main.inert = menuOpen;
+    }
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+      const m = document.getElementById("main-content") as HTMLElement & { inert?: boolean } | null;
+      if (m) {
+        m.removeAttribute("inert");
+        if ("inert" in m) m.inert = false;
+      }
+    };
   }, [menuOpen]);
 
   useEffect(() => {
@@ -91,7 +104,11 @@ export default function App() {
       <a className="skip-link" href="#main">
         Skip to content
       </a>
-      <div className="fixed left-0 top-0 z-[60] h-1 w-full origin-left bg-gradient-to-r from-brand via-indigo-400 to-teal-400" style={{ transform: `scaleX(${scrollState.progress})` }} />
+      <div
+        className="fixed left-0 top-0 z-[60] h-1 w-full origin-left bg-gradient-to-r from-brand via-indigo-400 to-teal-400"
+        style={{ transform: `scaleX(${scrollState.progress})` }}
+        aria-hidden="true"
+      />
 
       <Header
         locale={locale}
@@ -103,16 +120,18 @@ export default function App() {
         setMenuOpen={setMenuOpen}
         labels={labels}
       />
-      <Hero locale={locale} />
-      <TrustLogos locale={locale} />
-      <HowItWorks locale={locale} />
-      <Features locale={locale} />
-      <ScaleSection locale={locale} />
-      <Testimonials locale={locale} />
-      <Pricing locale={locale} currency={currency} setCurrency={setCurrency} />
-      <FAQ locale={locale} />
-      <CTA locale={locale} />
-      <Footer locale={locale} />
+      <div id="main-content">
+        <Hero locale={locale} />
+        <TrustLogos locale={locale} />
+        <HowItWorks locale={locale} />
+        <Features locale={locale} />
+        <ScaleSection locale={locale} />
+        <Testimonials locale={locale} />
+        <Pricing locale={locale} currency={currency} setCurrency={setCurrency} />
+        <FAQ locale={locale} />
+        <CTA locale={locale} />
+        <Footer locale={locale} />
+      </div>
 
       <button
         type="button"

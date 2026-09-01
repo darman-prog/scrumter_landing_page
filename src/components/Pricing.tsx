@@ -20,12 +20,18 @@ export function Pricing({
         <SectionHeading eyebrow={copy.eyebrow} title={copy.title} accent={copy.accent} subtitle={copy.subtitle} />
 
         <div className="mb-8 flex justify-center">
-          <div className="inline-flex rounded-full border border-slate-200 bg-white p-1 shadow-sm dark:border-white/10 dark:bg-slate-950">
+          <div
+            role="group"
+            aria-label={locale === "es" ? "Moneda" : "Currency"}
+            className="inline-flex rounded-full border border-slate-200 bg-white p-1 shadow-sm dark:border-white/10 dark:bg-slate-950"
+          >
             <button
               type="button"
               onClick={() => setCurrency("cop")}
               aria-pressed={currency === "cop"}
-              className={`rounded-full px-5 py-2.5 text-sm font-black transition ${
+              aria-selected={currency === "cop"}
+              role="tab"
+              className={`rounded-full px-5 py-2.5 text-sm font-black transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
                 currency === "cop" ? "bg-brand text-white shadow-lg shadow-brand/20" : "text-slate-500 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white"
               }`}
             >
@@ -35,7 +41,9 @@ export function Pricing({
               type="button"
               onClick={() => setCurrency("usd")}
               aria-pressed={currency === "usd"}
-              className={`rounded-full px-5 py-2.5 text-sm font-black transition ${
+              aria-selected={currency === "usd"}
+              role="tab"
+              className={`rounded-full px-5 py-2.5 text-sm font-black transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
                 currency === "usd" ? "bg-brand text-white shadow-lg shadow-brand/20" : "text-slate-500 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white"
               }`}
             >
@@ -44,22 +52,22 @@ export function Pricing({
           </div>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-5">
+        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-6 -mx-5 px-5 sm:mx-0 sm:px-0 lg:grid lg:grid-cols-3 lg:gap-5 xl:grid-cols-5 lg:overflow-visible lg:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {copy.plans.map((plan, index) => (
-            <Reveal key={plan.name} delay={index * 60}>
+            <Reveal key={plan.name} delay={index * 60} className="min-w-[88vw] snap-center sm:min-w-[340px] lg:min-w-0 shrink-0 lg:shrink">
               <article
-                className={`relative flex h-full flex-col rounded-3xl border p-6 transition hover:-translate-y-1 ${
+                className={`relative flex h-full min-h-[420px] flex-col rounded-3xl border p-6 transition hover:-translate-y-1 ${
                   plan.highlighted
                     ? "border-brand bg-slate-950 text-white shadow-2xl shadow-brand/20 dark:border-indigo-300 dark:bg-white dark:text-slate-950"
                     : "border-slate-200 bg-white shadow-sm dark:border-white/10 dark:bg-slate-950"
                 }`}
               >
                 {plan.highlighted && (
-                  <span className="absolute right-5 top-5 rounded-full bg-brand px-3 py-1 text-xs font-black text-white dark:bg-slate-950">
+                  <span className="absolute right-5 top-5 rounded-full bg-brand px-3 py-1 text-xs font-black text-white dark:bg-slate-950 max-w-[42%] truncate">
                     {copy.popular}
                   </span>
                 )}
-                <h3 className="pr-24 text-xl font-black">{plan.name}</h3>
+                <h3 className="pr-24 text-xl font-black leading-tight">{plan.name}</h3>
                 <p className={`mt-3 min-h-12 text-sm leading-6 ${plan.highlighted ? "text-slate-300 dark:text-slate-600" : "text-slate-500 dark:text-slate-400"}`}>
                   {plan.description}
                 </p>
@@ -79,9 +87,14 @@ export function Pricing({
                     </li>
                   ))}
                 </ul>
-                <a className={`mt-auto flex min-h-12 items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-black transition ${plan.highlighted ? "bg-white text-brand hover:bg-indigo-50 dark:bg-slate-950 dark:text-white" : "border border-slate-200 text-slate-800 hover:border-brand hover:text-brand dark:border-white/10 dark:text-white"}`} href="#cta">
+                <a
+                  className={`mt-auto flex min-h-12 items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-black transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${plan.highlighted ? "bg-white text-brand hover:bg-indigo-50 dark:bg-slate-950 dark:text-white" : "border border-slate-200 text-slate-800 hover:border-brand hover:text-brand dark:border-white/10 dark:text-white"}`}
+                  href={`#cta`}
+                  data-plan={plan.name}
+                  aria-label={`${plan.cta} — ${plan.name}`}
+                >
                   {plan.cta}
-                  {plan.highlighted && <ArrowRight size={17} />}
+                  {plan.highlighted && <ArrowRight size={17} aria-hidden="true" />}
                 </a>
               </article>
             </Reveal>

@@ -1,4 +1,5 @@
 import { ArrowRight, ChevronDown, Globe2, Menu, Moon, Sun, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import type { Locale, Theme } from "../data/content";
 
 type HeaderProps = {
@@ -41,6 +42,48 @@ export function Header({
   labels,
 }: HeaderProps) {
   const nextTheme = theme === "dark" ? "light" : "dark";
+  const drawerRef = useRef<HTMLElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const drawer = drawerRef.current;
+    if (!drawer) return;
+    const prevActive = document.activeElement as HTMLElement | null;
+    // focus close button on open
+    window.requestAnimationFrame(() => closeRef.current?.focus());
+    const getFocusable = () =>
+      Array.from(drawer.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')).filter(
+        (el) => el.offsetParent !== null || el.getAttribute("aria-hidden") !== "true",
+      );
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Tab") {
+        const focusable = getFocusable();
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    drawer.addEventListener("keydown", onKeyDown);
+    return () => {
+      drawer.removeEventListener("keydown", onKeyDown);
+      // return focus to trigger
+      if (prevActive && triggerRef.current) {
+        triggerRef.current.focus();
+      } else {
+        triggerRef.current?.focus();
+      }
+    };
+  }, [menuOpen, setMenuOpen]);
 
   return (
     <>
@@ -57,7 +100,7 @@ export function Header({
             <span className="text-[1.22rem] tracking-[-0.02em]">Scrumter</span>
           </a>
 
-          <div className="hidden items-center gap-[30px] lg:flex" aria-label="Principal">
+          <div className="nav-menu-desktop items-center gap-[30px]" aria-label="Principal">
             {navLinks.map(([href, key]) => (
               <a
                 key={href}
@@ -69,17 +112,12 @@ export function Header({
             ))}
           </div>
 
-          <div className="hidden items-center gap-3 lg:flex">
-            <LanguageSwitch locale={locale} setLocale={setLocale} label={labels.language} />
-            <button
-              type="button"
-              className="icon-button"
-              onClick={() => setTheme(nextTheme)}
-              aria-label={labels.theme}
-              aria-pressed={theme === "dark"}
-            >
-              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
+          <div className="nav-cta-desktop items-center gap-3">
+            <div className="nav-utils" role="toolbar" aria-label={labels.language}>
+              <LangDropdown locale={locale} setLocale={setLocale} label={labels.language} />
+              <span className="nav-div" aria-hidden="true" />
+              <ThemeSwitchCompact theme={theme} onToggle={() => setTheme(nextTheme)} label={labels.theme} />
+            </div>
             <a className="px-2 text-[0.92rem] font-semibold text-slate-600 hover:text-brand dark:text-slate-200" href="#cta">
               {labels.signIn}
             </a>
@@ -92,8 +130,9 @@ export function Header({
           </div>
 
           <button
+            ref={triggerRef}
             type="button"
-            className="icon-button lg:hidden"
+            className="burger icon-button"
             onClick={() => setMenuOpen(true)}
             aria-label={labels.openMenu}
             aria-expanded={menuOpen}
@@ -105,17 +144,20 @@ export function Header({
       </header>
 
       <div
-        className={`fixed inset-0 z-50 bg-slate-950/45 backdrop-blur-sm transition lg:hidden ${
+        className={`fixed inset-0 z-50 bg-slate-950/45 backdrop-blur-sm transition min-[821px]:hidden ${
           menuOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={() => setMenuOpen(false)}
+        aria-hidden="true"
       />
 
       <aside
+        ref={drawerRef}
         id="mobile-menu"
         role="dialog"
         aria-modal="true"
-        className={`fixed right-0 top-0 z-50 flex h-dvh w-[min(360px,88vw)] flex-col border-l border-slate-200 bg-white p-5 shadow-2xl transition-transform duration-300 lg:hidden dark:border-white/10 dark:bg-slate-950 ${
+        aria-label={labels.openMenu}
+        className={`fixed right-0 top-0 z-50 flex h-dvh w-[min(360px,88vw)] flex-col border-l border-slate-200 bg-white p-5 shadow-2xl transition-transform duration-300 min-[821px]:hidden dark:border-white/10 dark:bg-slate-950 ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -124,7 +166,7 @@ export function Header({
             <img className="h-9 w-9 rounded-xl object-contain" src="/scrumter-logo.png" alt="Scrumter" width={32} height={32} loading="lazy" decoding="async" />
             Scrumter
           </a>
-          <button type="button" className="icon-button" onClick={() => setMenuOpen(false)} aria-label={labels.closeMenu}>
+          <button ref={closeRef} type="button" className="icon-button" onClick={() => setMenuOpen(false)} aria-label={labels.closeMenu}>
             <X size={20} />
           </button>
         </div>
@@ -148,21 +190,11 @@ export function Header({
               <Globe2 size={17} />
               {labels.language}
             </span>
-            <LanguageSwitch locale={locale} setLocale={setLocale} label={labels.language} compact />
+            <LangDropdown locale={locale} setLocale={setLocale} label={labels.language} />
           </div>
           <div className="mt-4 flex items-center justify-between gap-3">
             <span className="text-sm font-bold text-slate-600 dark:text-slate-300">{labels.theme}</span>
-            <button
-              type="button"
-              className="theme-toggle"
-              onClick={() => setTheme(nextTheme)}
-              aria-pressed={theme === "dark"}
-              aria-label={labels.theme}
-            >
-              <span className={theme === "dark" ? "translate-x-7" : "translate-x-0"}>
-                {theme === "dark" ? <Moon size={14} /> : <Sun size={14} />}
-              </span>
-            </button>
+            <ThemeSwitchCompact theme={theme} onToggle={() => setTheme(nextTheme)} label={labels.theme} />
           </div>
         </div>
 
@@ -182,35 +214,89 @@ export function Header({
   );
 }
 
-function LanguageSwitch({
+function LangDropdown({
   locale,
   setLocale,
   label,
-  compact = false,
 }: {
   locale: Locale;
   setLocale: (locale: Locale) => void;
   label: string;
-  compact?: boolean;
 }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (event: PointerEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) setOpen(false);
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  const flag = locale === "es" ? "🇪🇸" : "🇺🇸";
+
   return (
-    <div className={`flex items-center rounded-full border border-slate-200 bg-slate-100 p-1 dark:border-white/10 dark:bg-white/8 ${compact ? "" : "gap-1"}`}>
-      {(["es", "en"] as Locale[]).map((option) => (
-        <button
-          key={option}
-          type="button"
-          onClick={() => setLocale(option)}
-          aria-label={`${label}: ${option.toUpperCase()}`}
-          className={`flex min-h-9 items-center gap-1.5 rounded-full px-3 text-xs font-black transition ${
-            locale === option
-              ? "bg-white text-brand shadow-sm dark:bg-slate-900 dark:text-white"
-              : "text-slate-500 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white"
-          }`}
-        >
-          <span>{option === "es" ? "ES" : "EN"}</span>
-          {!compact && <ChevronDown size={13} className="opacity-55" aria-hidden="true" />}
-        </button>
-      ))}
+    <div ref={ref} className="lang-dd">
+      <button
+        type="button"
+        className="lang-dd-trigger"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-label={`${label}: ${locale.toUpperCase()}`}
+        onClick={() => setOpen((value) => !value)}
+      >
+        <span aria-hidden="true">{flag}</span>
+        <span>{locale.toUpperCase()}</span>
+        <ChevronDown size={13} className="opacity-55 transition group-hover:opacity-100" aria-hidden="true" />
+      </button>
+      <ul role="menu" aria-label={label} className={`lang-dd-menu ${open ? "open" : ""}`}>
+        {(["es", "en"] as Locale[]).map((option) => (
+          <li key={option} role="none">
+            <button
+              type="button"
+              role="menuitem"
+              aria-selected={locale === option}
+              onClick={() => {
+                setLocale(option);
+                setOpen(false);
+              }}
+              className={`lang-dd-item ${locale === option ? "active" : ""}`}
+            >
+              {option === "es" ? "🇪🇸 Español" : "🇺🇸 English"}
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
+  );
+}
+
+function ThemeSwitchCompact({
+  theme,
+  onToggle,
+  label,
+}: {
+  theme: Theme;
+  onToggle: () => void;
+  label: string;
+}) {
+  const isDark = theme === "dark";
+  return (
+    <button type="button" className="theme-switch-compact" onClick={onToggle} aria-pressed={isDark} aria-label={label}>
+      <Sun size={11} className="tsc-icon" aria-hidden="true" />
+      <Moon size={11} className="tsc-icon" aria-hidden="true" />
+      <span className="tsc-knob" aria-hidden="true">
+        {isDark ? <Moon size={10} /> : <Sun size={10} />}
+      </span>
+    </button>
   );
 }

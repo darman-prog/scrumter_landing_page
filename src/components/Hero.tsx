@@ -7,7 +7,7 @@ export function Hero({ locale }: { locale: Locale }) {
   const copy = content[locale].hero;
 
   return (
-    <section id="main" className="hero-section relative overflow-hidden pb-16 pt-10 md:pb-24 md:pt-16">
+    <section id="main" className="hero-section relative overflow-x-clip pb-16 pt-10 md:pb-24 md:pt-16">
       {/* grid + gradients — referencia Nexora */}
       <div className="hero-grid absolute inset-0 -z-20" aria-hidden="true" />
       <div

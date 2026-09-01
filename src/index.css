@@ -167,8 +167,20 @@ body {
   color: #3626ce;
 }
 
-@media (min-width: 1024px) {
-  .icon-button.lg\:hidden {
+/* breakpoint nav — fiel a legacy (820px) */
+.nav-menu-desktop,
+.nav-cta-desktop {
+  display: none;
+}
+.burger {
+  display: grid;
+}
+@media (min-width: 821px) {
+  .nav-menu-desktop,
+  .nav-cta-desktop {
+    display: flex;
+  }
+  .burger {
     display: none;
   }
 }
@@ -202,6 +214,170 @@ body {
 
 .dark .theme-toggle {
   background: #3626ce;
+}
+
+/* nav-utils pill — fiel a legacy */
+.nav-utils {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgb(226 232 240);
+  border-radius: 999px;
+  background: rgb(248 250 252);
+}
+.dark .nav-utils {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+}
+.nav-div {
+  width: 1px;
+  height: 20px;
+  background: rgb(226 232 240);
+  margin: 0 4px;
+}
+.dark .nav-div {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* lang dropdown único — fiel a legacy */
+.lang-dd {
+  position: relative;
+}
+.lang-dd-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgb(100 116 139);
+  transition:
+    background 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease;
+}
+.lang-dd-trigger:hover {
+  background: white;
+  color: rgb(15 23 42);
+}
+.lang-dd-trigger[aria-expanded="true"] {
+  background: white;
+  color: #3626ce;
+  box-shadow: 0 2px 8px rgba(2, 6, 23, 0.06);
+}
+.dark .lang-dd-trigger {
+  color: rgb(203 213 225);
+}
+.dark .lang-dd-trigger:hover,
+.dark .lang-dd-trigger[aria-expanded="true"] {
+  background: rgb(255 255 255 / 0.08);
+  color: white;
+}
+.lang-dd-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 60;
+  min-width: 168px;
+  padding: 6px;
+  border: 1px solid rgb(226 232 240);
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 12px 32px rgba(2, 6, 23, 0.12);
+  display: none;
+}
+.lang-dd-menu.open {
+  display: block;
+}
+.dark .lang-dd-menu {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgb(15 23 42);
+}
+.lang-dd-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: rgb(100 116 139);
+  transition:
+    background 140ms ease,
+    color 140ms ease;
+}
+.lang-dd-item:hover {
+  background: rgb(248 250 252);
+  color: rgb(15 23 42);
+}
+.lang-dd-item.active {
+  background: color-mix(in srgb, #3626ce 10%, white);
+  color: #3626ce;
+}
+.dark .lang-dd-item {
+  color: rgb(203 213 225);
+}
+.dark .lang-dd-item:hover {
+  background: rgb(255 255 255 / 0.06);
+  color: white;
+}
+.dark .lang-dd-item.active {
+  background: color-mix(in srgb, #818cf8 18%, transparent);
+  color: #c7d2fe;
+}
+
+/* theme switch compact 52x28 — track con iconos + knob */
+.theme-switch-compact {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 28px;
+  width: 52px;
+  border-radius: 999px;
+  background: rgb(226 232 240);
+  padding: 3px 7px;
+  transition: background 180ms ease;
+}
+.theme-switch-compact::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 999px;
+}
+.theme-switch-compact .tsc-icon {
+  z-index: 1;
+  color: rgb(148 163 184);
+  transition: color 180ms ease;
+}
+.theme-switch-compact .tsc-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  z-index: 2;
+  display: grid;
+  height: 22px;
+  width: 22px;
+  place-items: center;
+  border-radius: 999px;
+  background: white;
+  color: #3626ce;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.16);
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.theme-switch-compact[aria-pressed="true"] {
+  background: #3626ce;
+}
+.theme-switch-compact[aria-pressed="true"] .tsc-icon {
+  color: rgb(199 210 254);
+}
+.theme-switch-compact[aria-pressed="true"] .tsc-knob {
+  transform: translateX(24px);
+  color: #3626ce;
 }
 
 /* nav underline como referencia Nexora */
