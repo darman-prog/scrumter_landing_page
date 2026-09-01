@@ -22,7 +22,7 @@ export function Features({ locale }: { locale: Locale }) {
                   <h3 className="mt-6 text-xl font-black text-slate-950 dark:text-white">{item.title}</h3>
                   <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">{item.text}</p>
                   <a
-                    className="mt-5 inline-flex items-center gap-2 text-sm font-black text-brand transition hover:gap-3 dark:text-indigo-200"
+                    className="mt-5 inline-flex items-center gap-2 text-sm font-black text-brand transition hover:gap-3 dark:text-brand-200"
                     href="#cta"
                     aria-label={`${locale === "es" ? "Saber más sobre" : "Learn more about"} ${item.title}`}
                   >

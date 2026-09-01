@@ -30,7 +30,7 @@ const statsTones = ["brand", "amber", "emerald"] as const;
 const modulesTones = ["brand", "amber", "violet", "orange"] as const;
 
 const toneClasses = {
-  brand: "bg-brand/10 text-brand dark:bg-indigo-400/12 dark:text-indigo-200",
+  brand: "bg-brand/10 text-brand dark:bg-brand-400/12 dark:text-brand-200",
   amber: "bg-amber-100 text-amber-700 dark:bg-amber-400/12 dark:text-amber-200",
   emerald: "bg-emerald-100 text-emerald-700 dark:bg-emerald-400/12 dark:text-emerald-200",
   violet: "bg-violet-100 text-violet-700 dark:bg-violet-400/12 dark:text-violet-200",
@@ -171,7 +171,7 @@ export function ProductMockup({ locale }: { locale: Locale }) {
           {/* Recientes */}
           <div className="mt-4 rounded-2xl border border-dashed border-slate-300 bg-slate-50/50 p-8 text-center dark:border-white/10 dark:bg-white/[0.02]">
             <p className="text-sm font-bold text-slate-600 dark:text-slate-300">{copy.emptyTitle}</p>
-            <span className="mt-1 inline-flex items-center gap-1.5 text-sm font-black text-brand dark:text-indigo-200">
+            <span className="mt-1 inline-flex items-center gap-1.5 text-sm font-black text-brand dark:text-brand-200">
               {copy.emptyCta}
               <ArrowRight size={14} aria-hidden="true" />
             </span>

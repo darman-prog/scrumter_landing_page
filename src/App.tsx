@@ -1,4 +1,5 @@
 import { ArrowUp } from "lucide-react";
+import { useReducedMotion, useScroll } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
 import { CTA } from "./components/CTA";
 import { FAQ } from "./components/FAQ";
@@ -31,6 +32,8 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollState, setScrollState] = useState({ scrolled: false, progress: 0, showTop: false });
   const labels = useMemo(() => content[locale].nav, [locale]);
+  const prefersReduced = useReducedMotion();
+  const { scrollY, scrollYProgress } = useScroll();
 
   useEffect(() => {
     document.documentElement.lang = locale;
@@ -41,6 +44,8 @@ export default function App() {
     document.documentElement.classList.toggle("dark", theme === "dark");
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("scrumter-theme", theme);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", theme === "dark" ? "#0b1626" : "#3626ce");
   }, [theme]);
 
   useEffect(() => {
@@ -62,29 +67,21 @@ export default function App() {
   }, [menuOpen]);
 
   useEffect(() => {
-    let ticking = false;
-    const update = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = max > 0 ? window.scrollY / max : 0;
-      setScrollState({
-        scrolled: window.scrollY > 12,
-        progress,
-        showTop: window.scrollY > 620,
-      });
-      ticking = false;
+    const unsubY = scrollY.on("change", (y) => {
+      setScrollState((prev) => ({
+        ...prev,
+        scrolled: y > 12,
+        showTop: y > 620,
+      }));
+    });
+    const unsubProgress = scrollYProgress.on("change", (progress) => {
+      setScrollState((prev) => ({ ...prev, progress }));
+    });
+    return () => {
+      unsubY();
+      unsubProgress();
     };
-
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(update);
-        ticking = true;
-      }
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [scrollY, scrollYProgress]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -105,8 +102,11 @@ export default function App() {
         Skip to content
       </a>
       <div
-        className="fixed left-0 top-0 z-[60] h-1 w-full origin-left bg-gradient-to-r from-brand via-indigo-400 to-teal-400"
-        style={{ transform: `scaleX(${scrollState.progress})` }}
+        className="fixed left-0 top-0 z-[60] h-1 w-full origin-left bg-gradient-to-r from-brand via-brand-400 to-brand-500"
+        style={{
+          transform: `scaleX(${scrollState.progress})`,
+          transition: prefersReduced ? "none" : "transform 300ms cubic-bezier(0.22, 1, 0.36, 1)",
+        }}
         aria-hidden="true"
       />
 

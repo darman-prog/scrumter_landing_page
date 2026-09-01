@@ -5,8 +5,40 @@
 
 @theme {
   --font-sans: "Inter", system-ui, sans-serif;
+
+  /* brand scale */
+  --color-brand-50: #eef0ff;
+  --color-brand-100: #e0e4ff;
+  --color-brand-200: #c7cbf8;
+  --color-brand-400: #818cf8;
+  --color-brand-500: #4f46e5;
   --color-brand: #3626ce;
+  --color-brand-700: #2e20b5;
   --color-brand-dark: #2e20b5;
+
+  /* surface */
+  --color-surface: #ffffff;
+  --color-surface-muted: #f8fafc;
+  --color-surface-dark: #0b1626;
+  --color-surface-dark-2: #12202f;
+  --color-surface-dark-3: #1a2c42;
+
+  /* border */
+  --color-border: #e2e8f0;
+  --color-border-dark: rgba(255, 255, 255, 0.08);
+
+  /* estado */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #f43f5e;
+
+  /* motion */
+  --duration-fast: 160ms;
+  --duration-med: 300ms;
+  --duration-slow: 560ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --lift-sm: -2px;
+  --lift-md: -4px;
 }
 
 * {
@@ -189,31 +221,6 @@ body {
   border-color: rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.05);
   color: white;
-}
-
-.theme-toggle {
-  position: relative;
-  height: 36px;
-  width: 68px;
-  border-radius: 999px;
-  background: rgb(226 232 240);
-  padding: 4px;
-}
-
-.theme-toggle span {
-  display: grid;
-  height: 28px;
-  width: 28px;
-  place-items: center;
-  border-radius: 999px;
-  background: white;
-  color: #3626ce;
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.14);
-  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.dark .theme-toggle {
-  background: #3626ce;
 }
 
 /* nav-utils pill — fiel a legacy */
@@ -517,6 +524,22 @@ body {
     transform 180ms ease,
     border-color 180ms ease,
     box-shadow 180ms ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(54, 38, 206, 0.08) 50%, transparent 60%);
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+
+.feature-card:hover::before {
+  opacity: 1;
 }
 
 .feature-card:hover {
@@ -531,15 +554,40 @@ body {
   box-shadow: none;
 }
 
-.reveal {
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 520ms ease,
-    transform 520ms ease;
+.dark .feature-card::before {
+  background: linear-gradient(135deg, transparent 40%, rgba(129, 140, 248, 0.12) 50%, transparent 60%);
 }
 
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+/* marquee TrustLogos */
+.marquee-wrapper {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+}
+
+.marquee-track {
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-wrapper:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+  .marquee-wrapper {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
 }

@@ -58,7 +58,7 @@ export function Pricing({
               <article
                 className={`relative flex h-full min-h-[420px] flex-col rounded-3xl border p-6 transition hover:-translate-y-1 ${
                   plan.highlighted
-                    ? "border-brand bg-slate-950 text-white shadow-2xl shadow-brand/20 dark:border-indigo-300 dark:bg-white dark:text-slate-950"
+                    ? "border-brand bg-slate-950 text-white shadow-2xl shadow-brand/20 dark:border-brand-300 dark:bg-white dark:text-slate-950"
                     : "border-slate-200 bg-white shadow-sm dark:border-white/10 dark:bg-slate-950"
                 }`}
               >

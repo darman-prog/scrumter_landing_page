@@ -1,6 +1,7 @@
 import { ArrowRight, Check, Gauge, ShieldCheck, UsersRound, Zap } from "lucide-react";
 import type { ReactNode } from "react";
 import { content, type Locale } from "../data/content";
+import { CountUp } from "./CountUp";
 import { Reveal } from "./Reveal";
 
 export function ScaleSection({ locale }: { locale: Locale }) {
@@ -71,16 +72,24 @@ function MetricTile({
   tone: "brand" | "amber" | "emerald" | "slate";
 }) {
   const toneClasses = {
-    brand: "bg-brand/10 text-brand dark:bg-indigo-400/12 dark:text-indigo-200",
+    brand: "bg-brand/10 text-brand dark:bg-brand-400/12 dark:text-brand-200",
     amber: "bg-amber-100 text-amber-700 dark:bg-amber-400/12 dark:text-amber-200",
     emerald: "bg-emerald-100 text-emerald-700 dark:bg-emerald-400/12 dark:text-emerald-200",
     slate: "bg-slate-100 text-slate-700 dark:bg-white/10 dark:text-white",
   };
 
+  const raw = value.replace(/[^\d.,]/g, "").replace(",", ".");
+  const num = parseFloat(raw);
+  const decimals = raw.includes(".") ? 1 : 0;
+  const suffix = value.replace(/[\d.,]/g, "");
+  const prefix = value.startsWith("+") ? "+" : "";
+
   return (
     <div className="min-h-44 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-white/5">
       <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${toneClasses[tone]}`}>{icon}</div>
-      <b className="mt-7 block text-4xl font-black text-slate-950 dark:text-white">{value}</b>
+      <b className="mt-7 block text-4xl font-black text-slate-950 dark:text-white">
+        <CountUp from={0} to={num} decimals={decimals} suffix={suffix} prefix={prefix} ariaLabel={`${value} ${label}`} />
+      </b>
       <span className="mt-2 block text-sm font-bold text-slate-500 dark:text-slate-400">{label}</span>
     </div>
   );

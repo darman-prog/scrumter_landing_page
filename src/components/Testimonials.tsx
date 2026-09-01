@@ -12,7 +12,7 @@ export function Testimonials({ locale }: { locale: Locale }) {
         <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
           <span className="pill mx-auto border-white/10 bg-white/10 text-indigo-100">{copy.eyebrow}</span>
           <h2 className="mt-5 text-balance text-3xl font-black md:text-5xl">
-            {copy.title} <span className="text-indigo-200">{copy.accent}</span>
+            {copy.title} <span className="text-brand-200">{copy.accent}</span>
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-300">{copy.subtitle}</p>
         </div>

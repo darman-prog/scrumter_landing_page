@@ -1,4 +1,5 @@
 import { ArrowRight, Check, ChevronRight, Play } from "lucide-react";
+import { CountUp } from "./CountUp";
 import { ProductMockup } from "./ProductMockup";
 import type { Locale } from "../data/content";
 import { content } from "../data/content";
@@ -29,7 +30,7 @@ export function Hero({ locale }: { locale: Locale }) {
           </a>
 
           <h1 className="mt-5 text-balance text-[2.05rem] font-extrabold leading-[1.06] tracking-[-0.03em] text-slate-950 sm:text-5xl lg:text-[3.45rem] dark:text-white">
-            {copy.title} <span className="text-brand dark:text-indigo-300">{copy.accent}</span>
+            {copy.title} <span className="text-brand dark:text-brand-300">{copy.accent}</span>
           </h1>
 
           <p className="mt-4 max-w-[480px] text-base leading-7 text-slate-500 sm:text-[1.04rem] dark:text-slate-300">{copy.lead}</p>
@@ -42,7 +43,7 @@ export function Hero({ locale }: { locale: Locale }) {
               </span>
             </a>
             <a className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full px-5 text-sm font-semibold text-slate-600 transition hover:text-brand sm:w-auto dark:text-slate-300 dark:hover:text-white" href="#how">
-              <span className="grid h-9 w-9 place-items-center rounded-full border-2 border-brand text-brand dark:border-indigo-300 dark:text-indigo-200" aria-hidden="true">
+              <span className="grid h-9 w-9 place-items-center rounded-full border-2 border-brand text-brand dark:border-brand-300 dark:text-brand-200" aria-hidden="true">
                 <Play size={14} fill="currentColor" className="ml-0.5" />
               </span>
               {copy.secondary}
@@ -62,12 +63,20 @@ export function Hero({ locale }: { locale: Locale }) {
 
           {/* métricas visibles también en móvil, como referencia bottom row */}
           <div className="mt-9 grid max-w-xl grid-cols-3 gap-4 sm:gap-6">
-            {copy.metrics.map((metric) => (
-              <div key={metric.label} className="border-l-[3px] border-brand/20 pl-3 sm:pl-4">
-                <b className="block text-[1.22rem] font-extrabold tracking-[-0.02em] text-slate-950 sm:text-2xl dark:text-white">{metric.value}</b>
-                <span className="mt-1 block text-[11px] font-semibold leading-4 text-slate-500 dark:text-slate-400">{metric.label}</span>
-              </div>
-            ))}
+            {copy.metrics.map((metric) => {
+              const raw = metric.value.replace(/[^\d.,]/g, "").replace(",", ".");
+              const num = parseFloat(raw);
+              const decimals = raw.includes(".") ? 1 : 0;
+              const suffix = metric.value.replace(/[\d.,]/g, "");
+              return (
+                <div key={metric.label} className="border-l-[3px] border-brand/20 pl-3 sm:pl-4">
+                  <b className="block text-[1.22rem] font-extrabold tracking-[-0.02em] text-slate-950 sm:text-2xl dark:text-white">
+                    <CountUp from={0} to={num} decimals={decimals} suffix={suffix} ariaLabel={`${metric.value} ${metric.label}`} />
+                  </b>
+                  <span className="mt-1 block text-[11px] font-semibold leading-4 text-slate-500 dark:text-slate-400">{metric.label}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
 
