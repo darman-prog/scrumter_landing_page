@@ -74,7 +74,7 @@ export function Hero({ locale }: { locale: Locale }) {
         <div className="relative mx-auto w-full max-w-[600px] lg:ml-auto lg:max-w-[640px]">
           {/* perspectiva mockup referencia */}
           <div className="hero-mockup-wrap">
-            <ProductMockup />
+            <ProductMockup locale={locale} />
           </div>
         </div>
       </div>
