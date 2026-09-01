@@ -1,6 +1,6 @@
 import { ArrowRight, Check, Gauge, ShieldCheck, UsersRound, Zap } from "lucide-react";
 import type { ReactNode } from "react";
-import { content, type Locale } from "../data/content";
+import { SIGNUP_URL, content, type Locale } from "../data/content";
 import { CountUp } from "./CountUp";
 import { Reveal } from "./Reveal";
 
@@ -25,7 +25,7 @@ export function ScaleSection({ locale }: { locale: Locale }) {
                 </span>
               ))}
             </div>
-            <a className="btn-primary mt-8" href="#cta">
+            <a className="btn-primary mt-8" href={SIGNUP_URL}>
               {copy.cta}
               <ArrowRight size={18} />
             </a>

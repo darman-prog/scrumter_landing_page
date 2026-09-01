@@ -1,5 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
-import { content, iconMap, type Locale } from "../data/content";
+import { SIGNUP_URL, content, iconMap, type Locale } from "../data/content";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
@@ -23,7 +23,7 @@ export function Features({ locale }: { locale: Locale }) {
                   <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">{item.text}</p>
                   <a
                     className="mt-5 inline-flex items-center gap-2 text-sm font-black text-brand transition hover:gap-3 dark:text-brand-200"
-                    href="#cta"
+                    href={SIGNUP_URL}
                     aria-label={`${locale === "es" ? "Saber más sobre" : "Learn more about"} ${item.title}`}
                   >
                     {locale === "es" ? "Saber más" : "Learn more"}

@@ -22,6 +22,9 @@ export type Locale = "es" | "en";
 export type Theme = "light" | "dark";
 export type Currency = "cop" | "usd";
 
+/** URL de la app SaaS — destino de todos los CTAs de conversión */
+export const SIGNUP_URL = "https://scrumter.io/";
+
 export type IconName =
   | "activity"
   | "bot"
@@ -548,6 +551,25 @@ export const content = {
       note: "Free to start - No card - Cancel anytime",
       error: "Please enter a valid email address.",
       success: "Check your inbox to activate your account.",
+    },
+    mockup: {
+      ariaLabel: "Scrumter preview — dashboard with Sprints, Task Board, Requirements and Inputs modules",
+      sidebarSections: [
+        { label: null, items: ["Dashboard", "Projects", "My Tasks"] },
+        { label: "Modules", items: ["Requirements", "Scrum Board", "Sprints", "Task Board", "Inputs", "Calendar"] },
+        { label: "Intelligence", items: ["AI Assistant", "Plans"] },
+      ],
+      newProject: "New project",
+      profile: "Profile",
+      signOut: "Sign out",
+      dashboard: "Dashboard",
+      welcome: "Welcome",
+      welcomeText: "Create your first project and start planning with AI.",
+      createWithAI: "Create with AI",
+      statsLabels: ["My Projects", "Pending Tasks", "Active Sprints"],
+      modulesLabels: ["Sprints", "Task Board", "Requirements", "Inputs"],
+      emptyTitle: "You have no projects yet.",
+      emptyCta: "Create your first",
     },
     footer: {
       description: "The intelligent platform to manage Scrum with AI, from input to sprint.",

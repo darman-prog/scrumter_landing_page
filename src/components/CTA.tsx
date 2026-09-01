@@ -1,6 +1,6 @@
 import { ArrowRight, Loader2, Mail } from "lucide-react";
 import { useId, useState, type FormEvent } from "react";
-import { content, type Locale } from "../data/content";
+import { SIGNUP_URL, content, type Locale } from "../data/content";
 
 export function CTA({ locale }: { locale: Locale }) {
   const copy = content[locale].cta;
@@ -25,13 +25,10 @@ export function CTA({ locale }: { locale: Locale }) {
     setLoading(true);
     setMessage("");
     setMessageType("");
-    // Simula POST /api/leads — reemplazar por fetch real en fullstack
+    // Lleva al usuario a la app tras validar el email
     window.setTimeout(() => {
-      setLoading(false);
-      setEmail("");
-      setMessage(copy.success);
-      setMessageType("success");
-    }, 900);
+      window.location.href = SIGNUP_URL;
+    }, 400);
   }
 
   return (

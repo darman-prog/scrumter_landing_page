@@ -1,6 +1,6 @@
 import { ArrowRight, ChevronDown, Globe2, Menu, Moon, Sun, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import type { Locale, Theme } from "../data/content";
+import { SIGNUP_URL, type Locale, type Theme } from "../data/content";
 
 type HeaderProps = {
   locale: Locale;
@@ -118,10 +118,10 @@ export function Header({
               <span className="nav-div" aria-hidden="true" />
               <ThemeSwitchCompact theme={theme} onToggle={() => setTheme(nextTheme)} label={labels.theme} />
             </div>
-            <a className="px-2 text-[0.92rem] font-semibold text-slate-600 hover:text-brand dark:text-slate-200" href="#cta">
+            <a className="px-2 text-[0.92rem] font-semibold text-slate-600 hover:text-brand dark:text-slate-200" href={SIGNUP_URL}>
               {labels.signIn}
             </a>
-            <a className="btn-primary !gap-3 !py-[11px] !pl-5 !pr-3 text-[0.88rem]" href="#cta">
+            <a className="btn-primary !gap-3 !py-[11px] !pl-5 !pr-3 text-[0.88rem]" href={SIGNUP_URL}>
               <span>{labels.cta}</span>
               <span className="grid h-[26px] w-[26px] place-items-center rounded-full bg-white text-brand transition group-hover:translate-x-0.5" aria-hidden="true">
                 <ArrowRight size={14} strokeWidth={2.5} />
@@ -199,13 +199,13 @@ export function Header({
         </div>
 
         <div className="mt-auto grid gap-3 pt-6">
-          <a className="btn-primary justify-center !gap-3" href="#cta" onClick={() => setMenuOpen(false)}>
+          <a className="btn-primary justify-center !gap-3" href={SIGNUP_URL} onClick={() => setMenuOpen(false)}>
             <span>{labels.cta}</span>
             <span className="grid h-[26px] w-[26px] place-items-center rounded-full bg-white text-brand" aria-hidden="true">
               <ArrowRight size={14} strokeWidth={2.5} />
             </span>
           </a>
-          <a className="text-center text-sm font-bold text-slate-600 dark:text-slate-300" href="#cta">
+          <a className="text-center text-sm font-bold text-slate-600 dark:text-slate-300" href={SIGNUP_URL} onClick={() => setMenuOpen(false)}>
             {labels.signIn}
           </a>
         </div>

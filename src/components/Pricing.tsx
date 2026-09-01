@@ -1,5 +1,5 @@
 import { ArrowRight, Check, ShieldCheck } from "lucide-react";
-import { content, type Currency, type Locale } from "../data/content";
+import { SIGNUP_URL, content, type Currency, type Locale } from "../data/content";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
@@ -89,7 +89,7 @@ export function Pricing({
                 </ul>
                 <a
                   className={`mt-auto flex min-h-12 items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-black transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${plan.highlighted ? "bg-white text-brand hover:bg-indigo-50 dark:bg-slate-950 dark:text-white dark:hover:bg-slate-800" : "border border-slate-200 text-slate-800 hover:border-brand hover:text-brand dark:border-white/10 dark:text-white dark:hover:border-brand-300 dark:hover:text-brand-200"}`}
-                  href={`#cta`}
+                  href={SIGNUP_URL}
                   data-plan={plan.name}
                   aria-label={`${plan.cta} — ${plan.name}`}
                 >

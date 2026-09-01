@@ -1,8 +1,7 @@
 import { ArrowRight, Check, ChevronRight, Play } from "lucide-react";
 import { CountUp } from "./CountUp";
 import { ProductMockup } from "./ProductMockup";
-import type { Locale } from "../data/content";
-import { content } from "../data/content";
+import { SIGNUP_URL, content, type Locale } from "../data/content";
 
 export function Hero({ locale }: { locale: Locale }) {
   const copy = content[locale].hero;
@@ -23,7 +22,7 @@ export function Hero({ locale }: { locale: Locale }) {
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 sm:px-6 lg:grid-cols-[1.02fr_1.08fr] lg:gap-8 lg:px-8">
         <div className="min-w-0">
           {/* pill NEW — fiel a referencia con tag */}
-          <a href="#cta" className="pill group inline-flex items-center gap-2 !py-1.5 !pr-2 !pl-2.5 text-[0.78rem] !font-semibold hover:border-brand/30">
+          <a href={SIGNUP_URL} className="pill group inline-flex items-center gap-2 !py-1.5 !pr-2 !pl-2.5 text-[0.78rem] !font-semibold hover:border-brand/30">
             <span className="rounded-md bg-brand px-1.5 py-0.5 text-[0.62rem] font-black tracking-[0.06em] text-white">{locale === "es" ? "NUEVO" : "NEW"}</span>
             <span className="font-semibold tracking-tight">{copy.badge}</span>
             <ChevronRight size={14} className="opacity-60 transition group-hover:translate-x-0.5 group-hover:opacity-100" aria-hidden="true" />
@@ -36,7 +35,7 @@ export function Hero({ locale }: { locale: Locale }) {
           <p className="mt-4 max-w-[480px] text-base leading-7 text-slate-500 sm:text-[1.04rem] dark:text-slate-300">{copy.lead}</p>
 
           <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3.5">
-            <a className="btn-primary group w-full justify-center !gap-3 !px-3 !py-3 text-[0.95rem] sm:w-auto sm:!pl-6 sm:!pr-3" href="#cta">
+            <a className="btn-primary group w-full justify-center !gap-3 !px-3 !py-3 text-[0.95rem] sm:w-auto sm:!pl-6 sm:!pr-3" href={SIGNUP_URL}>
               <span>{copy.primary}</span>
               <span className="grid h-7 w-7 place-items-center rounded-full bg-white text-brand shadow-sm transition group-hover:translate-x-0.5" aria-hidden="true">
                 <ArrowRight size={14} strokeWidth={2.7} />
