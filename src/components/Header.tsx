@@ -51,18 +51,18 @@ export function Header({
             : "border-transparent bg-white/74 backdrop-blur-xl dark:bg-slate-950/64"
         }`}
       >
-        <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-5 sm:px-6 lg:px-8">
-          <a href="#main" className="group flex items-center gap-3 font-black text-slate-950 dark:text-white">
-            <img className="h-9 w-9 rounded-xl object-contain" src="/scrumter-logo.png" alt="" />
-            <span className="text-xl tracking-normal">Scrumter</span>
+        <nav className="mx-auto flex h-[76px] max-w-7xl items-center justify-between gap-4 px-5 sm:px-6 lg:px-8">
+          <a href="#main" className="group flex items-center gap-2.5 font-extrabold text-slate-950 dark:text-white" aria-label="Scrumter — Inicio">
+            <img className="h-8 w-8 rounded-lg object-contain" src="/scrumter-logo.png" alt="Scrumter" width={32} height={32} loading="eager" decoding="async" />
+            <span className="text-[1.22rem] tracking-[-0.02em]">Scrumter</span>
           </a>
 
-          <div className="hidden items-center gap-8 lg:flex">
+          <div className="hidden items-center gap-[30px] lg:flex" aria-label="Principal">
             {navLinks.map(([href, key]) => (
               <a
                 key={href}
                 href={href}
-                className="text-sm font-semibold text-slate-600 transition hover:text-brand dark:text-slate-300 dark:hover:text-white"
+                className="nav-link relative text-[0.92rem] font-medium text-slate-500 transition hover:text-brand dark:text-slate-300 dark:hover:text-white"
               >
                 {labels[key]}
               </a>
@@ -80,12 +80,14 @@ export function Header({
             >
               {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
-            <a className="px-2 text-sm font-bold text-slate-700 hover:text-brand dark:text-slate-200" href="#cta">
+            <a className="px-2 text-[0.92rem] font-semibold text-slate-600 hover:text-brand dark:text-slate-200" href="#cta">
               {labels.signIn}
             </a>
-            <a className="btn-primary" href="#cta">
-              {labels.cta}
-              <ArrowRight size={18} />
+            <a className="btn-primary !gap-3 !py-[11px] !pl-5 !pr-3 text-[0.88rem]" href="#cta">
+              <span>{labels.cta}</span>
+              <span className="grid h-[26px] w-[26px] place-items-center rounded-full bg-white text-brand transition group-hover:translate-x-0.5" aria-hidden="true">
+                <ArrowRight size={14} strokeWidth={2.5} />
+              </span>
             </a>
           </div>
 
@@ -118,8 +120,8 @@ export function Header({
         }`}
       >
         <div className="flex items-center justify-between">
-          <a href="#main" className="flex items-center gap-3 font-black text-slate-950 dark:text-white">
-            <img className="h-9 w-9 rounded-xl object-contain" src="/scrumter-logo.png" alt="" />
+          <a href="#main" className="flex items-center gap-3 font-black text-slate-950 dark:text-white" aria-label="Scrumter — Inicio">
+            <img className="h-9 w-9 rounded-xl object-contain" src="/scrumter-logo.png" alt="Scrumter" width={32} height={32} loading="lazy" decoding="async" />
             Scrumter
           </a>
           <button type="button" className="icon-button" onClick={() => setMenuOpen(false)} aria-label={labels.closeMenu}>
@@ -165,9 +167,11 @@ export function Header({
         </div>
 
         <div className="mt-auto grid gap-3 pt-6">
-          <a className="btn-primary justify-center" href="#cta" onClick={() => setMenuOpen(false)}>
-            {labels.cta}
-            <ArrowRight size={18} />
+          <a className="btn-primary justify-center !gap-3" href="#cta" onClick={() => setMenuOpen(false)}>
+            <span>{labels.cta}</span>
+            <span className="grid h-[26px] w-[26px] place-items-center rounded-full bg-white text-brand" aria-hidden="true">
+              <ArrowRight size={14} strokeWidth={2.5} />
+            </span>
           </a>
           <a className="text-center text-sm font-bold text-slate-600 dark:text-slate-300" href="#cta">
             {labels.signIn}
@@ -204,7 +208,7 @@ function LanguageSwitch({
           }`}
         >
           <span>{option === "es" ? "ES" : "EN"}</span>
-          {!compact && <ChevronDown size={13} className="opacity-55" />}
+          {!compact && <ChevronDown size={13} className="opacity-55" aria-hidden="true" />}
         </button>
       ))}
     </div>
