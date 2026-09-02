@@ -585,20 +585,23 @@ body {
   }
 }
 .pricing-hint-arrow {
-  animation: hint-nudge 2.8s ease-in-out infinite;
+  animation: drag-nudge 2.8s ease-in-out infinite;
   will-change: transform;
 }
-@keyframes hint-nudge {
+@keyframes drag-nudge {
   0%,
-  70%,
+  68%,
   100% {
     transform: translateX(0);
   }
-  78% {
-    transform: translateX(5px);
+  76% {
+    transform: translateX(4px);
   }
-  86% {
-    transform: translateX(2px);
+  84% {
+    transform: translateX(-4px);
+  }
+  92% {
+    transform: translateX(0);
   }
 }
 @media (prefers-reduced-motion: reduce) {

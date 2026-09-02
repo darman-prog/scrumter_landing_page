@@ -1,4 +1,4 @@
-import { ArrowRight, Check, ChevronRight, ShieldCheck } from "lucide-react";
+import { ArrowRight, Check, MoveHorizontal, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { SIGNUP_URL, content, type Currency, type Locale } from "../data/content";
 import { Reveal } from "./Reveal";
@@ -144,14 +144,14 @@ export function Pricing({
           ))}
           </div>
 
-          {/* hint minimal: chevron con nudge sutil, se oculta tras el primer scroll */}
+          {/* hint minimal: gesto de arrastre ↔ en pill glass, se oculta tras el primer scroll */}
           <span
             aria-hidden="true"
-            className={`pricing-hint absolute right-3 top-1/2 z-10 flex -translate-y-1/2 items-center transition-opacity duration-300 lg:hidden ${
+            className={`pricing-hint absolute right-3 top-1/2 z-10 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-slate-200/80 bg-white/90 shadow-lg backdrop-blur-sm transition-opacity duration-300 lg:hidden dark:border-white/10 dark:bg-slate-900/80 ${
               scrolled ? "pointer-events-none opacity-0" : "opacity-100"
             }`}
           >
-            <ChevronRight size={22} strokeWidth={2.25} className="pricing-hint-arrow text-brand dark:text-brand-200" />
+            <MoveHorizontal size={18} strokeWidth={2.25} className="pricing-hint-arrow text-brand dark:text-brand-200" />
           </span>
         </div>
 
