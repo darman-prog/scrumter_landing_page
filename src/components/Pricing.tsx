@@ -89,7 +89,7 @@ export function Pricing({
                     aria-expanded={isOpen}
                     aria-controls={`plan-panel-${index}`}
                     onClick={() => setOpenPlan(isOpen ? -1 : index)}
-                    className="flex w-full min-h-14 items-center gap-3 px-5 py-4 text-left"
+                    className="flex w-full min-h-14 items-center gap-3 px-6 py-5 text-left"
                   >
                     <span className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
                       <b className="text-base font-black tracking-tight">{plan.name}</b>
@@ -122,7 +122,7 @@ export function Pricing({
                   className="overflow-hidden"
                   aria-hidden={!isOpen}
                 >
-                  <div className="px-5 pb-5">
+                  <div className="px-6 pb-6">
                     <p className={`text-sm leading-6 ${plan.highlighted ? "text-slate-300 dark:text-slate-500" : "text-slate-500 dark:text-slate-400"}`}>
                       {plan.description}
                     </p>
@@ -167,14 +167,14 @@ export function Pricing({
           {copy.plans.map((plan, index) => (
             <Reveal key={plan.name} delay={index * 60}>
               <article
-                className={`group relative flex h-full min-h-[420px] flex-col rounded-3xl border p-6 transition-all duration-300 hover:-translate-y-1 ${
+                className={`group relative flex h-full min-h-[420px] flex-col rounded-3xl border p-7 transition-all duration-300 hover:-translate-y-1 ${
                   plan.highlighted
                     ? "border-brand bg-gradient-to-b from-slate-900 to-slate-950 text-white shadow-2xl shadow-brand/20 hover:border-brand-400 hover:from-slate-800 hover:to-slate-900 hover:shadow-brand/40 dark:border-brand-300 dark:bg-gradient-to-b dark:from-white dark:to-slate-100 dark:text-slate-950 dark:hover:border-brand-400 dark:hover:from-slate-50 dark:hover:to-white dark:hover:shadow-brand/30"
                     : "border-slate-200 bg-white shadow-sm hover:border-brand hover:shadow-xl hover:shadow-slate-200/50 dark:border-white/10 dark:bg-slate-950 dark:hover:border-brand-300 dark:hover:shadow-slate-900/50"
                 }`}
               >
                 {plan.highlighted && (
-                  <span className="absolute right-5 top-5 w-fit max-w-[calc(100%-2.5rem)] rounded-2xl bg-brand px-3 py-1 text-center text-xs font-black leading-5 text-white shadow-lg shadow-brand/30 ring-1 ring-white/20 dark:bg-slate-950 dark:text-white dark:ring-slate-950/10">
+                  <span className="absolute right-7 top-7 w-fit max-w-[calc(100%-3.5rem)] rounded-2xl bg-brand px-3 py-1 text-center text-xs font-black leading-5 text-white shadow-lg shadow-brand/30 ring-1 ring-white/20 dark:bg-slate-950 dark:text-white dark:ring-slate-950/10">
                     {copy.popular}
                   </span>
                 )}
