@@ -198,7 +198,7 @@ export function Pricing({
                     </span>
                   )}
                 </div>
-                <ul className="mt-7 grid gap-3">
+                <ul className="mt-7 mb-8 grid gap-3">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex gap-2 text-sm font-bold leading-6">
                       <span

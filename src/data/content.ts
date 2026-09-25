@@ -79,16 +79,16 @@ export const content = {
     },
     hero: {
       badge: "IA para Scrum - OpenAI + Ollama",
-      title: "Gestiona proyectos Scrum mas rapido con IA",
+      title: "Gestiona proyectos Scrum más rápido con IA",
       accent: "de insumo a sprint sin perder control",
       lead:
         "Scrumter convierte ideas, documentos y solicitudes en backlog priorizado, historias INVEST, tareas y sprints listos para ejecutar.",
       primary: "Crear cuenta gratis",
       secondary: "Ver flujo demo",
-      checks: ["Sin tarjeta requerida", "Creditos IA incluidos", "Pago local con Wompi"],
+      checks: ["Sin tarjeta requerida", "Créditos IA incluidos", "Pago local con Wompi"],
       metrics: [
         { value: "2.500+", label: "Proyectos gestionados" },
-        { value: "4.8/5", label: "Satisfaccion promedio" },
+        { value: "4.8/5", label: "Satisfacción promedio" },
         { value: "99.9%", label: "Uptime garantizado" },
       ],
     },
